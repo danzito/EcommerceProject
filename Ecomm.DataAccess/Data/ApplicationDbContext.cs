@@ -23,7 +23,7 @@ namespace Ecomm.DataAccess.Data
                 new Category { Id = 4, Name = "Anime", DisplayOrder = 4 }
                 );
 
-            modelBuilder.Entity<Category>().HasData(
+            modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
 
@@ -168,7 +168,7 @@ namespace Ecomm.DataAccess.Data
                 }
                 );
 
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
         }
     }
 }
