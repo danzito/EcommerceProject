@@ -1,5 +1,5 @@
-﻿using Ecomm.DataAccess.Models;
-using Ecomm.DataAccess.Repository.IRepository;
+﻿using Ecomm.DataAccess.Repository.IRepository;
+using Ecomm.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceSite.Areas.Admin.Controllers

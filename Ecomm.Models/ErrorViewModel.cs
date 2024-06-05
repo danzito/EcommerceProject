@@ -1,4 +1,4 @@
-namespace Ecomm.DataAccess.Models
+namespace Ecomm.Models
 {
     public class ErrorViewModel
     {

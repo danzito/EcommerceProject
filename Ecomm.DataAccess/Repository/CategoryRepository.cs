@@ -1,6 +1,6 @@
 ﻿using Ecomm.DataAccess.Data;
-using Ecomm.DataAccess.Models;
 using Ecomm.DataAccess.Repository.IRepository;
+using Ecomm.Models;
 
 namespace Ecomm.DataAccess.Repository
 {

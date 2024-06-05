@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ecomm.Models.Models
+namespace Ecomm.Models
 {
     public class Product
     {
@@ -21,16 +23,23 @@ namespace Ecomm.Models.Models
         public double ListPrice { get; set; }
         [Required]
         [Display(Name = "Price for 1 - 50")]
-        [Range(1, 100)]
+        [Range(1, 50)]
         public double Price { get; set; }
         [Required]
         [Display(Name = "Price for 50+")]
-        [Range(1, 100)]
+        //[Range(50, int.MaxValue)]
         public double Price50 { get; set; }
         [Required]
         [Display(Name = "Price for 100+")]
-        [Range(1, 100)]
+        //[Range(100,int.MaxValue)]
         public double Price100 { get; set; }
+        public int CategoryId { get; set; }
+
+        [ForeignKey("CategoryId")]
+        [ValidateNever]
+        public Category Category { get; set; }
+        [ValidateNever]
+        public string ImageUrl { get; set; }
 
     }
 }

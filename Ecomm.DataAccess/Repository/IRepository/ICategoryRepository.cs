@@ -1,4 +1,4 @@
-﻿using Ecomm.DataAccess.Models;
+﻿using Ecomm.Models;
 
 namespace Ecomm.DataAccess.Repository.IRepository
 {
