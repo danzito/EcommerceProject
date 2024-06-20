@@ -58,28 +58,50 @@ namespace EcommerceSite.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Upsert(ProductViewModel product, IFormFile? file)
+        public IActionResult Upsert(ProductViewModel productsView, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
                 string wwwRootPath = webHost.WebRootPath;
 
-                if(file != null)
+                if (file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath, @"images\product");
 
-                    using(var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    if (!string.IsNullOrEmpty(productsView.Product.ImageUrl))
+                    {
+                        //delete old image
+                        var oldimagePath = Path.Combine(wwwRootPath, productsView.Product.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldimagePath))
+                        {
+                            System.IO.File.Delete(oldimagePath);
+                        }
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
 
-                    product.Product.ImageUrl = @"\images\product\" + fileName;
+                    productsView.Product.ImageUrl = @"\images\product\" + fileName;
                 }
 
-                unitOfWork.Product.Add(product.Product);
+                string operationMessage;
+                if (productsView.Product.Id == 0)
+                {
+                    unitOfWork.Product.Add(productsView.Product);
+                    operationMessage = "Product created successfully";
+                }
+                else
+                {
+                    unitOfWork.Product.Update(productsView.Product);
+                    operationMessage = "Product updated successfully";
+                }
+
                 unitOfWork.Save();
-                TempData["success"] = "Product created successfully";
+                TempData["success"] = operationMessage;
                 return RedirectToAction("Index");
             }
             return View();
