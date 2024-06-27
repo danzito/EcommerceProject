@@ -13,19 +13,27 @@ namespace Ecomm.DataAccess.Repository
         {
             this.db = db;
             this.dbSet = db.Set<T>();
+            db.Products.Include(u => u.Category).Include(u => u.CategoryId);
         }
-        IEnumerable<T> IRepository<T>.GetAll()
+        IEnumerable<T> IRepository<T>.GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if (!String.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
             return query.ToList();
         }
 
-        T IRepository<T>.Get(Expression<Func<T, bool>> filter)
-        {
-            IQueryable<T> query = dbSet;
-            query = query.Where(filter);
-            return query.FirstOrDefault();
-        }
+        //T IRepository<T>.Get(Expression<Func<T, bool>> filter)
+        //{
+        //    IQueryable<T> query = dbSet;
+        //    query = query.Where(filter);
+        //    return query.FirstOrDefault();
+        //}
 
         void IRepository<T>.Add(T entity)
         {
@@ -39,9 +47,23 @@ namespace Ecomm.DataAccess.Repository
 
         void IRepository<T>.RemoveRange(IEnumerable<T> entities)
         {
-           dbSet.RemoveRange(entities);
+            dbSet.RemoveRange(entities);
         }
 
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            query = query.Where(filter);
 
+            if (!String.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+
+            return query.FirstOrDefault();
+        }
     }
 }
