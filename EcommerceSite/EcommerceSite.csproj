@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Ecomm.DataAccess\Ecomm.DataAccess.csproj" />
     <ProjectReference Include="..\Ecomm.Models\Ecomm.Models.csproj" />
+    <ProjectReference Include="..\Ecomm.Utility\Ecomm.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
