@@ -1,10 +1,13 @@
 ﻿using Ecomm.DataAccess.Repository.IRepository;
 using Ecomm.Models;
+using Ecomm.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceSite.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
